@@ -1,0 +1,20 @@
+
+query GetCommits {
+  repository(owner:"dailymotion", name: "tartiflette") {
+    ref(qualifiedName: "master") {
+      target {
+        ... on Commit {
+          history(first: 100) {
+            nodes {
+              author {
+                name
+              }
+              message
+              committedDate
+            }
+          }
+        }
+      }
+    }
+  }
+}

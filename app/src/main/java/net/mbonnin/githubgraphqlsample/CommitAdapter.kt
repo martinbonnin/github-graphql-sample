@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item.*
 
-class CommitAdapter(val commitList: List<GetCommitsQuery.Edge>) : RecyclerView.Adapter<CommitAdapter.Holder>() {
+class CommitAdapter(val commitList: List<GetCommitsQuery.Node>) : RecyclerView.Adapter<CommitAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): Holder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
 
@@ -24,10 +24,10 @@ class CommitAdapter(val commitList: List<GetCommitsQuery.Edge>) : RecyclerView.A
 
 
     class Holder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer {
-        fun bind(edge: GetCommitsQuery.Edge) {
-            message.text = edge.node()?.message()
-            author.text = edge.node()?.author()?.name
-            date.text = edge.node()?.committedDate()
+        fun bind(node: GetCommitsQuery.Node) {
+            message.text = node.message()
+            author.text = node.author()?.name
+            date.text = node.committedDate()
         }
     }
 }
