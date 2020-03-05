@@ -52,28 +52,6 @@ class MainActivity : AppCompatActivity() {
 
         val cacheFactory = SqlNormalizedCacheFactory(apolloSqlHelper)
 
-        val client = ApolloClient.builder()
-            .serverUrl("https://api.github.com/graphql")
-            .build()
-
-        val data = Any as UserQuery.Data
-
-        data.viewer.pinnedRepositories
-
-
-        val viewer = runBlocking {
-            client.query(UserQuery())
-                .toDeferred()
-                .await()
-                .data()
-                ?.viewer!!
-        }
-
-        viewer.pinnedRepositories
-
-
-
-
         ApolloClient.builder()
             .serverUrl("https://api.github.com/graphql")
             .addCustomTypeAdapter(CustomType.DATETIME, dateCustomTypeAdapter)
@@ -108,12 +86,13 @@ class MainActivity : AppCompatActivity() {
     private fun populateRecyclerView(data: GetCommitsQuery.Data?) {
         val head = data
             ?.repository
-            ?.ref()
-            ?.target() as? GetCommitsQuery.AsCommit
+            ?.ref
+            ?.target as? GetCommitsQuery.AsCommit
 
         val commitList = head
-            ?.history()
-            ?.nodes()
+            ?.history
+            ?.nodes
+            ?.filterNotNull()
 
         if (commitList != null) {
             recyclerView.adapter = CommitAdapter(commitList)
