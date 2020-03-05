@@ -18,3 +18,19 @@ query GetCommits {
     }
   }
 }
+
+query User {
+  viewer {
+    login
+    bio
+    status {
+      emoji
+      message
+    }
+      pinnedRepositories {
+        nodes {
+          id
+        }
+      }
+  }
+}

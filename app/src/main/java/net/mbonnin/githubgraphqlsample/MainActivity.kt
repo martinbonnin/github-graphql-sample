@@ -23,9 +23,11 @@ import com.apollographql.apollo.cache.normalized.CacheKeyResolver
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.sql.ApolloSqlHelper
 import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers.NETWORK_FIRST
 import com.apollographql.apollo.fetcher.ResponseFetcher
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.annotations.NotNull
 
 
@@ -49,6 +51,28 @@ class MainActivity : AppCompatActivity() {
         val apolloSqlHelper = ApolloSqlHelper.create(this, "graphql_db")
 
         val cacheFactory = SqlNormalizedCacheFactory(apolloSqlHelper)
+
+        val client = ApolloClient.builder()
+            .serverUrl("https://api.github.com/graphql")
+            .build()
+
+        val data = Any as UserQuery.Data
+
+        data.viewer.pinnedRepositories
+
+
+        val viewer = runBlocking {
+            client.query(UserQuery())
+                .toDeferred()
+                .await()
+                .data()
+                ?.viewer!!
+        }
+
+        viewer.pinnedRepositories
+
+
+
 
         ApolloClient.builder()
             .serverUrl("https://api.github.com/graphql")
