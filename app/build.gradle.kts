@@ -15,7 +15,7 @@ android {
         versionCode = 1
         versionName = "1"
 
-        val token = if (extra.has("gihubToken")) {
+        val token = if (extra.has("githubToken")) {
             extra.get("githubToken")
         } else {
             "set me in github.properties"

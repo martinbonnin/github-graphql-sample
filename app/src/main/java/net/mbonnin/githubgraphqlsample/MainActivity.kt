@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         disposable = Rx2Apollo.from(queryCall)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-            populateRecyclerView(it.data())
+            populateRecyclerView(it.data)
         }, {
             Timber.e(it)
         })
