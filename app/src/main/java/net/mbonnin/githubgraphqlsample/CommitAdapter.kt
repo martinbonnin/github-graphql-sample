@@ -25,9 +25,9 @@ class CommitAdapter(val commitList: List<GetCommitsQuery.Node>) : RecyclerView.A
 
     class Holder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(node: GetCommitsQuery.Node) {
-            message.text = node.message()
-            author.text = node.author()?.name
-            date.text = node.committedDate()
+            message.text = node.message
+            author.text = node.author?.name
+            date.text = node.committedDate
         }
     }
 }
