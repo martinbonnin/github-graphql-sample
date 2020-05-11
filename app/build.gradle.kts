@@ -22,6 +22,10 @@ android {
         }
         buildConfigField("String", "GITHUB_TOKEN", "\"$token\"")
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -41,9 +45,16 @@ dependencies {
     add("implementation", "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
     add("implementation", "io.reactivex.rxjava2:rxandroid:2.1.0")
 }
-/*apollo {
-    generateKotlinModels = true
-    customTypeMapping = [
-    "DateTime" : "String"
-    ]
-}*/
+androidExtensions {
+    isExperimental = true
+}
+apollo {
+    generateKotlinModels.set(true)
+    customTypeMapping.set(mutableMapOf("DateTime" to "String"))
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java) {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}

@@ -11,14 +11,10 @@ import okhttp3.OkHttpClient
 import timber.log.Timber
 import android.provider.Settings.System.DATE_FORMAT
 import android.support.v7.widget.LinearLayoutManager
-import com.apollographql.apollo.api.Operation
-import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.response.CustomTypeValue
-import com.apollographql.apollo.response.CustomTypeAdapter
+import com.apollographql.apollo.api.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import com.apollographql.apollo.cache.normalized.CacheKey
 import com.apollographql.apollo.api.Operation.Variables
-import com.apollographql.apollo.api.ResponseField
 import com.apollographql.apollo.cache.normalized.CacheKeyResolver
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.sql.ApolloSqlHelper
@@ -48,9 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val apolloSqlHelper = ApolloSqlHelper.create(this, "graphql_db")
-
-        val cacheFactory = SqlNormalizedCacheFactory(apolloSqlHelper)
+        val cacheFactory = SqlNormalizedCacheFactory(this, "graphql_db")
 
         ApolloClient.builder()
             .serverUrl("https://api.github.com/graphql")
