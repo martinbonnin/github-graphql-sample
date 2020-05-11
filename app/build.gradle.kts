@@ -2,7 +2,7 @@ plugins {
     id("com.android.application").version("3.6.3")
     id("org.jetbrains.kotlin.android").version("1.3.72")
     id("org.jetbrains.kotlin.android.extensions").version("1.3.72")
-    id("com.apollographql.apollo").version("2.0.3")
+    id("com.apollographql.apollo").version("2.0.3-SNAPSHOT")
 }
 
 apply(from = "github.properties")
@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    val apolloVersion = "2.0.3"
+    val apolloVersion = "2.0.3-SNAPSHOT"
     add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72")
     add("implementation", "com.android.support:appcompat-v7:28.0.0")
     add("implementation", "com.android.support:recyclerview-v7:28.0.0")

@@ -1,17 +1,16 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenLocal()
-    }
-}
-
 allprojects {
     repositories {
+        mavenCentral()
         google()
         jcenter()
+        mavenLocal {
+            content {
+                includeGroup("com.apollographql.apollo")
+                includeGroupByRegex(".*-SNAPSHOT")
+            }
+        }
     }
 }
 

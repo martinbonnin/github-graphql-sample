@@ -6,9 +6,10 @@ pluginManagement {
         mavenCentral()
         jcenter()
         gradlePluginPortal()
-        mavenLocal() {
+        mavenLocal {
             content {
                 includeGroup("com.apollographql.apollo")
+                includeGroupByRegex(".*-SNAPSHOT")
             }
         }
     }
