@@ -8,8 +8,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenLocal {
             content {
-                includeGroup("com.apollographql.apollo")
-                includeGroupByRegex(".*-SNAPSHOT")
+                includeVersionByRegex("com.apollographql.apollo", ".*", ".*-SNAPSHOT")
             }
         }
     }

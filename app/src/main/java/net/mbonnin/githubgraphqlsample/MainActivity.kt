@@ -12,19 +12,10 @@ import timber.log.Timber
 import android.provider.Settings.System.DATE_FORMAT
 import android.support.v7.widget.LinearLayoutManager
 import com.apollographql.apollo.api.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import com.apollographql.apollo.cache.normalized.CacheKey
-import com.apollographql.apollo.api.Operation.Variables
-import com.apollographql.apollo.cache.normalized.CacheKeyResolver
-import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
-import com.apollographql.apollo.cache.normalized.sql.ApolloSqlHelper
 import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
-import com.apollographql.apollo.fetcher.ApolloResponseFetchers.NETWORK_FIRST
-import com.apollographql.apollo.fetcher.ResponseFetcher
 import kotlinx.coroutines.*
-import org.jetbrains.annotations.NotNull
 import java.lang.Exception
 
 
@@ -65,7 +56,6 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val query = GetCommitsQuery()
-
 
         scope.launch {
             val response = try {
