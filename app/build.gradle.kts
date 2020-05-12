@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application").version("3.6.3")
+    id("com.android.application").version("4.1.0-alpha09")
     id("org.jetbrains.kotlin.android").version("1.3.72")
     id("org.jetbrains.kotlin.android.extensions").version("1.3.72")
     id("com.apollographql.apollo").version("2.0.3-SNAPSHOT")
@@ -22,6 +22,30 @@ android {
         }
         buildConfigField("String", "GITHUB_TOKEN", "\"$token\"")
     }
+
+    signingConfigs {
+        create("dummy") {
+            keyAlias = "dummy"
+            keyPassword = "dummy0"
+            storeFile = project.file( "keystore.jks")
+            storePassword = "dummy0"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("dummy")
+        }
+    }
+
+    buildTypes {
+        create("staging") {
+            initWith(getByName("debug"))
+        }
+        create("prodEnv") {
+            initWith(getByName("debug"))
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
