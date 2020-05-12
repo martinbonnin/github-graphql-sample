@@ -34,3 +34,14 @@ query User {
       }
   }
 }
+
+query UserByLogin {
+  search(first: 100, query: "efung", type: ISSUE) {
+    nodes {
+      ... on PullRequest {
+        id
+        body
+      }
+    }
+  }
+}

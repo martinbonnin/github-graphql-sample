@@ -23,11 +23,14 @@ import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers.NETWORK_FIRST
 import com.apollographql.apollo.fetcher.ResponseFetcher
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import org.jetbrains.annotations.NotNull
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
+
+    val scope = CoroutineScope(Dispatchers.Main + Job())
 
     val apollo by lazy {
         val okHttpClient = OkHttpClient.Builder()
@@ -54,8 +57,6 @@ class MainActivity : AppCompatActivity() {
             .build()
     }
 
-    private var disposable: Disposable? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.plant(Timber.DebugTree())
 
@@ -65,16 +66,19 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val query = GetCommitsQuery()
 
-        val queryCall = apollo.query(query)
-            .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
 
-        disposable = Rx2Apollo.from(queryCall)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-            populateRecyclerView(it.data)
-        }, {
-            Timber.e(it)
-        })
+        scope.launch {
+            val response = try {
+                val queryCall = apollo.query(query)
+                    .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
+                queryCall.toDeferred().await()
+            } catch (e: Exception) {
+                Timber.e(e)
+                return@launch
+            }
+
+            populateRecyclerView(response.data)
+        }
     }
 
     private fun populateRecyclerView(data: GetCommitsQuery.Data?) {
@@ -97,6 +101,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        disposable?.dispose()
+        scope.cancel()
     }
 }
