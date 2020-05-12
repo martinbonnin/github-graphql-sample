@@ -41,6 +41,7 @@ dependencies {
     add("implementation", "com.apollographql.apollo:apollo-rx2-support:$apolloVersion")
     add("implementation", "com.apollographql.apollo:apollo-coroutines-support:$apolloVersion")
     add("implementation", "com.apollographql.apollo:apollo-android-support:$apolloVersion")
+    add("implementation", "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.6")
     add("implementation", "com.jakewharton.timber:timber:4.7.1")
     add("implementation", "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
     add("implementation", "io.reactivex.rxjava2:rxandroid:2.1.0")
