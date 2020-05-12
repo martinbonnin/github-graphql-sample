@@ -75,7 +75,8 @@ class MainActivity : AppCompatActivity() {
         val head = data
             ?.repository
             ?.ref
-            ?.target as? GetCommitsQuery.AsCommit
+            ?.target
+            ?.asCommit
 
         val commitList = head
             ?.history
