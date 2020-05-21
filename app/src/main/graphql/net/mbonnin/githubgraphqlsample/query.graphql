@@ -19,6 +19,21 @@ query GetCommits {
   }
 }
 
+fragment userFragment on User {
+  repositories(first: 2) {
+    nodes {
+      name
+    }
+  }
+}
+
+query UserWithFragment {
+  viewer {
+    login
+    ...userFragment
+  }
+}
+
 query User {
   viewer {
     login

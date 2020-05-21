@@ -12,6 +12,7 @@ import timber.log.Timber
 import android.provider.Settings.System.DATE_FORMAT
 import android.support.v7.widget.LinearLayoutManager
 import com.apollographql.apollo.api.*
+import com.apollographql.apollo.cache.normalized.CacheKey
 import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.coroutines.toDeferred
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
@@ -58,16 +59,12 @@ class MainActivity : AppCompatActivity() {
         val query = GetCommitsQuery()
 
         scope.launch {
-            val response = try {
-                val queryCall = apollo.query(query)
-                    .responseFetcher(ApolloResponseFetchers.CACHE_FIRST)
-                queryCall.toDeferred().await()
-            } catch (e: Exception) {
-                Timber.e(e)
-                return@launch
-            }
 
-            populateRecyclerView(response.data)
+            val response = apollo.query(UserWithFragmentQuery()).toDeferred().await()
+            val fragment = response.data?.viewer?.fragments?.userFragment!!
+
+            apollo.apolloStore.write(fragment = fragment, cacheKey = CacheKey.from("toto"), variables = Operation.EMPTY_VARIABLES)
+                .execute()
         }
     }
 

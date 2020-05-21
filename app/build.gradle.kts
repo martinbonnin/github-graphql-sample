@@ -37,15 +37,6 @@ android {
         }
     }
 
-    buildTypes {
-        create("staging") {
-            initWith(getByName("debug"))
-        }
-        create("prodEnv") {
-            initWith(getByName("debug"))
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
