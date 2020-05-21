@@ -2,10 +2,18 @@ plugins {
     id("com.android.application").version("4.1.0-alpha09")
     id("org.jetbrains.kotlin.android").version("1.3.72")
     id("org.jetbrains.kotlin.android.extensions").version("1.3.72")
-    id("com.apollographql.apollo").version("2.0.3-SNAPSHOT")
+    id("com.apollographql.apollo").version("2.0.3")
 }
 
 apply(from = "github.properties")
+
+fun githubToken(): String {
+    return if (extra.has("githubToken")) {
+        extra.get("githubToken") as String
+    } else {
+        "set me in github.properties"
+    }
+}
 
 android {
     compileSdkVersion(28)
@@ -15,11 +23,8 @@ android {
         versionCode = 1
         versionName = "1"
 
-        val token = if (extra.has("githubToken")) {
-            extra.get("githubToken")
-        } else {
-            "set me in github.properties"
-        }
+        val token = githubToken()
+
         buildConfigField("String", "GITHUB_TOKEN", "\"$token\"")
     }
 
@@ -53,7 +58,7 @@ android {
 }
 
 dependencies {
-    val apolloVersion = "2.0.3-SNAPSHOT"
+    val apolloVersion = "2.0.3"
     add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72")
     add("implementation", "com.android.support:appcompat-v7:28.0.0")
     add("implementation", "com.android.support:recyclerview-v7:28.0.0")
@@ -82,4 +87,10 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java) {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+tasks.register("downloadSchema", com.apollographql.apollo.gradle.internal.ApolloDownloadSchemaTask::class.java) {
+    endpointUrl.set("https://api.github.com/graphql")
+    schemaFilePath.set("src/main/graphql/net/mbonnin/githubgraphqlsample/schema.json")
+    headers.set(mapOf("Authorization" to "Bearer ${githubToken()}"))
 }
