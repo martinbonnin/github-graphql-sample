@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application").version("4.1.0-alpha09")
+    id("com.android.application").version("4.1.0-alpha08")
     id("org.jetbrains.kotlin.android").version("1.3.72")
     id("org.jetbrains.kotlin.android.extensions").version("1.3.72")
     id("com.apollographql.apollo").version("2.1.0")
